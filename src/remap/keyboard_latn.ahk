@@ -48,9 +48,9 @@ vk0E & 3:: ;-> кавычки-right
 vk0E & 4:: ;-> 
 {
    if GetKeyState("Shift")
-      Send("") ; 
+      Send("ʺ") ; modifier letter double prime
    else
-      Send("") ; 
+      Send("„") ; 
 }
 vk0E & 5:: ;-> 
 {
@@ -59,33 +59,33 @@ vk0E & 5:: ;->
    else
       Send("") ; 
 }
-vk0E & 6:: ;-> 
+vk0E & 6:: ;-> palatalized & velarized
 {
    if GetKeyState("Shift")
-      Send("") ; 
+      Send("ˠ") ; 
    else
-      Send("") ; 
+      Send("ʲ") ; 
 }
-vk0E & 7:: ;-> palatalized & velarized
+vk0E & 7:: ;-> 
 {
    if GetKeyState("Shift")
-      Send("ˠ")
+      Send("‹")
    else
-      Send("ʲ")
+      Send("‘") ; LEFT SINGLE QUOTATION MARK
 }
 vk0E & 8:: ;-> prime & apostrophe
 {
    if GetKeyState("Shift")
-      Send("ʹ") ; prime (modifier)
+      Send("›") ; 
    else
-      Send("’") ; right single quotation
+      Send("’") ; RIGHT SINGLE QUOTATION MARK
 }
 vk0E & 9:: ;-> 
 {
    if GetKeyState("Shift")
-      Send("") ; 
+      Send("ʹ") ; modifier letter prime
    else
-      Send("") ; 
+      Send("‚") ; SINGLE LOW-9 QUOTATION MARK
 }
 vk0E & 0:: ;-> dotted circle & affricate
 {

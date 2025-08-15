@@ -24,8 +24,6 @@ IniWrite(A_ScriptHwnd, A_Temp "\UniSlav.tmp", "HWND", "cyrl")
 #Include "modifier.ahk"
 
 ;row 1
-sc029::Send("ј")
-+sc029::Send("Ј")
 vk0E & 1::
 {
    if GetKeyState("Shift")
@@ -339,9 +337,9 @@ z::Send("я")
 vk0E & z::
 {
    if GetKeyState("Shift")
-      Send("")
+      Send("Ј")
    else
-      Send("")
+      Send("ј")
 }
 x::Send("ч")
 +x::Send("Ч")
