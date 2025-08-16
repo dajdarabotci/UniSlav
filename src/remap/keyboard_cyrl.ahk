@@ -24,8 +24,6 @@ IniWrite(A_ScriptHwnd, A_Temp "\UniSlav.tmp", "HWND", "cyrl")
 #Include "modifier.ahk"
 
 ;row 1
-sc029::Send("ј")
-+sc029::Send("Ј")
 vk0E & 1::
 {
    if GetKeyState("Shift")
@@ -50,7 +48,7 @@ vk0E & 3::
 vk0E & 4::
 {
    if GetKeyState("Shift")
-      Send("")
+      Send("„")
    else
       Send("")
 }
@@ -71,23 +69,23 @@ vk0E & 6::
 vk0E & 7::
 {
    if GetKeyState("Shift")
-      Send("ʹ") ;  prime
+      Send("ʹ") ; modifier letter prime
    else
-      Send("’") ;  right single ęuotation
+      Send("‘") ; left single quotation
 }
 vk0E & 8::
 {
    if GetKeyState("Shift")
       Send("")
    else
-      Send("")
+      Send("’") ; right single quotation
 }
 vk0E & 9::
 {
    if GetKeyState("Shift")
       Send("")
    else
-      Send("")
+      Send("‚")
 }
 vk0E & 0::
 {
@@ -96,7 +94,6 @@ vk0E & 0::
    else
       Send("◌")
 }
-sc00C::Send("‑") ; non-breaking hyphen
 vk0E & sc00C::
 {
    if GetKeyState("Shift")
@@ -108,9 +105,9 @@ sc00D::Send("{U+0301}") ; combining acute accent
 vk0E & sc00D::
 {
    if GetKeyState("Shift")
-      Send("~")
+      SendText("~")
    else
-      Send("^")
+      SendText("^")
  
 ;row 2
 }
@@ -209,19 +206,19 @@ sc01A::Send("х") ;@ mark
 vk0E & sc01A::
 {
    if GetKeyState("Shift")
-      Send("")
+      Send("``")
    else
-      Send("")
+      Send("@")
 }
 sc01B::Send("ъ") ;[
 +sc01B::Send("Ъ")
 vk0E & sc01B::
 {
    if GetKeyState("Shift")
-      Send("{")
+      SendText("{")
    else
       Send("[")
- 
+
 ;row 2
 }
 a::Send("ф")
@@ -238,9 +235,9 @@ s::Send("ы")
 vk0E & s::
 {
    if GetKeyState("Shift")
-      Send("")
+      Send("Ј")
    else
-      Send("")
+      Send("ј")
 }
 d::Send("в")
 +d::Send("В")
@@ -328,12 +325,12 @@ sc02B::Send("є") ; right bracket
 vk0E & sc02B:: ;right bracket
 {
    if GetKeyState("Shift")
-      Send("}")
+      SendText("}")
    else
       Send("]")
+}
  
 ;row 3
-}
 z::Send("я")
 +z::Send("Я")
 vk0E & z::
