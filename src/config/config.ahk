@@ -51,13 +51,12 @@ Lang := Map(
     ,Save: "保存"
     ,Toggle: "UniSlav を起動/終了"}
 )
-
-currentLang := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "Lang", "ja")
+systemLang := A_Language != "0411"||"0011" ? "ja" : "en"
+currentLang := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "Lang", systemLang)
 HKModern := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "HKModern", "^1")
 HKChurch := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "HKChurch", "^2")
 Modifier := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "Modifier", 1)
 StartUp := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "StartUp", 0)
-
 
 createGui()
 createGui() {
@@ -132,6 +131,8 @@ createGui() {
             , "Launch UniSlav", A_ScriptDir "\..\icon\main.ico"
         else if FileExist(A_Startup "\UniSlav.lnk")
             FileDelete A_Startup "\UniSlav.lnk"
+        SetTimer(ToolTip,-2000)
+        ToolTip("Saved settings.")
     }
 
     toggle_Click(*) {
