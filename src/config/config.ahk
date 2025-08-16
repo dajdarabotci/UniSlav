@@ -82,13 +82,14 @@ createGui() {
     admin.Add("Button", "vSave Center", Lang[currentLang].Save)
     ;Tab2 info
     admin["Tab"].UseTab(2)
-    admin.Add("Text", ,"Version:`n`nSoftware License:`n`n`nGitHub:")
+    admin.Add("Text", ,"Version:`n`nSoftware License:`n`n`nGitHub:`n`n`nKeyboard Layouts:")
     admin.Add("Link", "x+10", '0.1.0`n`n'
                             '<a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU General Public License, version 2</a>`n'
                             'Copyright © 2024 <a href="https://github.com/Mijadaj">Міја</a>`n`n'
                             '<a href="https://github.com/Mijadaj/UniSlav">Repository</a>, '
                             '<a href="https://github.com/Mijadaj/UniSlav/releases/latest">Latest release</a>,`n'
-                            '<a href="https://github.com/Mijadaj/UniSlav/wiki">Wiki (Key Layouts)</a>'
+                            '<a href="https://github.com/Mijadaj/UniSlav/wiki">Wiki (Key Layouts)</a>,`n`n'
+                            '<a href="..\layout/">Image (PNG)</a>'
     )
     ;bottom
     admin["Tab"].UseTab(0)
