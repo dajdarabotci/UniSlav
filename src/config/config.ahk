@@ -16,7 +16,7 @@ along with this program; if not, see
 <https://www.gnu.org/licenses/>.
 */
 
-;@Ahk2Exe-SetMainIcon %A_ScriptDir%\..\icon\main.ico
+;@Ahk2Exe-SetMainIcon %A_ScriptDir%\..\assets\main.ico
 ;@Ahk2Exe-SetCopyright Copyright © 2024 Міја
 ;@Ahk2Exe-SetDescription UniSlav Manager
 ;@Ahk2Exe-SetName UniSlav
@@ -129,7 +129,7 @@ createGui() {
         }
         if StartUp
             FileCreateShortcut A_ScriptDir "\..\UniSlav.ahk", A_Startup "\UniSlav.lnk",,
-            , "Launch UniSlav", A_ScriptDir "\..\icon\main.ico"
+            , "Launch UniSlav", A_ScriptDir "\..\assets\main.ico"
         else if FileExist(A_Startup "\UniSlav.lnk")
             FileDelete A_Startup "\UniSlav.lnk"
         SetTimer(ToolTip,-2000)

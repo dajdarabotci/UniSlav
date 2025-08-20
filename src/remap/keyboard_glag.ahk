@@ -17,9 +17,10 @@ along with this program; if not, see
 */
 
 ; Glagolitic keyboard
+#Requires AutoHotkey >=2.0
 #SingleInstance Force
 A_IconTip := "UniSlav - Glagolitic"
-TraySetIcon("..\icon\glag.ico",,false)
+TraySetIcon("..\assets\glag.ico",,true)
 IniWrite(A_ScriptHwnd, A_Temp "\UniSlav.tmp", "HWND", "glag")
 #Include "modifier.ahk"
 

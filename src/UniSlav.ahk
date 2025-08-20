@@ -16,10 +16,11 @@ along with this program; if not, see
 <https://www.gnu.org/licenses/>.
 */
 
+#Requires AutoHotkey >=2.0
 #SingleInstance Force
 DetectHiddenWindows(true)
 A_IconTip := "UniSlav"
-TraySetIcon("icon\main.ico",, false)
+TraySetIcon("assets\main.ico",, false)
 IniWrite(A_ScriptHwnd, A_Temp "\UniSlav.tmp", "HWND", "ctrl")
 SetTimer(ToolTip,-2000)
 ToolTip("UniSlav launched.")
@@ -33,7 +34,7 @@ Hotkey(HKChurch,ChurchKB,"On")
 ModernKB(*) {
     global
     checkWin()
-    if !currentScript {
+    if !thisScript {
         A_IconHidden := 1
         Run(ahkPath " remap\keyboard_cyrl.ahk")
         SetTimer(ToolTip,-1500)
@@ -59,7 +60,7 @@ ModernKB(*) {
 ChurchKB(*) {
     global
     checkWin()
-    if !currentScript {
+    if !thisScript {
         A_IconHidden := 1
         Run(ahkPath " remap\keyboard_cyrs.ahk")
         SetTimer(ToolTip,-1500)
@@ -93,9 +94,9 @@ checkWin() {
     WinCyrs := WinExist("ahk_id " HWND_cyrs)
     WinGlag := WinExist("ahk_id " HWND_glag)
     if !(WinCyrl || WinLatn || WinCyrs || WinGlag)
-        currentScript := false
+        thisScript := false
     else
-        currentScript := true
+        thisScript := true
 }
 switchKeyboard(new,old) {
     global
