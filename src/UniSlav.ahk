@@ -42,13 +42,13 @@ ModernKB(*) {
     }
     else if WinCyrl {
         A_IconHidden := 1
-        WinClose("ahk_id " HWND_cyrl)
+        WinClose("ahk_id " WinCyrl)
         Run(ahkPath " remap\keyboard_latn.ahk")
         SetTimer(ToolTip,-1500)
         ToolTip("Slavic Latin")
     }
     else if WinLatn {
-        WinClose("ahk_id" HWND_latn)
+        WinClose("ahk_id" WinLatn)
         A_IconHidden := 0
         SetTimer(ToolTip,-1500)
         ToolTip("Exiting keyboard mode...")
@@ -68,13 +68,13 @@ ChurchKB(*) {
     }
     else if WinCyrs {
         A_IconHidden := 1
-        WinClose("ahk_id" HWND_cyrs)
+        WinClose("ahk_id" WinCyrs)
         Run(ahkPath " remap\keyboard_glag.ahk")
         SetTimer(ToolTip,-1500)
         ToolTip("Glagolitic")
     }
     else if WinGlag {
-        WinClose("ahk_id" HWND_glag)
+        WinClose("ahk_id" WinGlag)
         A_IconHidden := 0
         SetTimer(ToolTip,-1500)
         ToolTip("Exiting keyboard mode...")
@@ -85,14 +85,10 @@ ChurchKB(*) {
 }
 checkWin() {
     global
-    HWND_cyrl := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrl", "")
-    HWND_latn := IniRead(A_Temp "\UniSlav.tmp", "HWND", "latn", "")
-    HWND_cyrs := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrs", "")
-    HWND_glag := IniRead(A_Temp "\UniSlav.tmp", "HWND", "glag", "")
-    WinCyrl := WinExist("ahk_id " HWND_cyrl)
-    WinLatn := WinExist("ahk_id " HWND_latn)
-    WinCyrs := WinExist("ahk_id " HWND_cyrs)
-    WinGlag := WinExist("ahk_id " HWND_glag)
+    WinCyrl := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrl", "")
+    WinLatn := IniRead(A_Temp "\UniSlav.tmp", "HWND", "latn", "")
+    WinCyrs := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrs", "")
+    WinGlag := IniRead(A_Temp "\UniSlav.tmp", "HWND", "glag", "")
     if !(WinCyrl || WinLatn || WinCyrs || WinGlag)
         thisScript := false
     else
@@ -108,9 +104,10 @@ switchKeyboard(new,old) {
         closeCyrs()
         closeGlag()
     }
-    Send new
+    Sleep 0
+    Send(new)
 }
-
+;
 OnExit cleanUp
 cleanUp(*) {
     ToolTip("Exiting UniSlav.")
@@ -125,17 +122,17 @@ cleanUp(*) {
 
 closeCyrl() {
     if WinCyrl
-        WinClose("ahk_id" HWND_cyrl)
+        WinClose("ahk_id" WinCyrl)
 }
 closeLatn() {
     if WinLatn
-        WinClose("ahk_id" HWND_latn)
+        WinClose("ahk_id" WinLatn)
 }
 closeCyrs() {
     if WinCyrs
-        WinClose("ahk_id" HWND_cyrs)
+        WinClose("ahk_id" WinCyrs)
 }
 closeGlag() {
     if WinGlag
-        WinClose("ahk_id" HWND_glag)
+        WinClose("ahk_id" WinGlag)
 }

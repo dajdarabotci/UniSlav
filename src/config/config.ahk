@@ -139,8 +139,8 @@ createGui() {
             FileDelete A_Startup "\UniSlav.lnk"
         if Desktop
             FileCreateShortcut A_ScriptDir "\..\AutoHotkey64_UniSlav.exe", A_Desktop "\UniSlav Manager.lnk", A_ScriptDir "\..\", ".\config\config.ahk", "Launch UniSlav", A_ScriptDir "\..\assets\main.ico"
-        else if FileExist(A_Desktop "UniSlav Manager.lnk")
-            FileDelete A_Desktop "UniSlav Manager.lnk"
+        else if FileExist(A_Desktop "\UniSlav Manager.lnk")
+            FileDelete A_Desktop "\UniSlav Manager.lnk"
         SetTimer(ToolTip,-2000)
         ToolTip("Saved settings.")
     }

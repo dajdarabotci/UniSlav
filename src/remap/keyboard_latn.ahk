@@ -354,9 +354,9 @@ vk0E & sc033:: ; comma
 vk0E & sc034:: ; period
 {
    if GetKeyState("Shift")
-      Send("Ľ")
+    	Send("Ľ")
    else
-      Send("ľ")
+    	Send("ľ")
 }
 vk0E & sc035:: ; slash
 {
@@ -406,7 +406,11 @@ normalizeNFC(str) {
     ret := DllCall("Normaliz\NormalizeString", "int", 0x1, "str", str, "int", -1, "ptr", buf, "int", size, "int")
     return ret > 0 ? StrGet(buf, "UTF-16") : str
 }
-OnExit(*) => DllCall("FreeLibrary", "ptr", hNorm)
+OnExit clean
+clean(*) {
+   DllCall("FreeLibrary", "ptr", hNorm)
+   IniDelete(A_Temp "\UniSlav.tmp", "HWND", "latn")
+}
 
 AddMark(cp) {
     global PendingMarks, NextKeyHook
@@ -448,8 +452,8 @@ AdjustStr(str) { ;
     if InStr(str, cedilla) {
         for x in ["s", "t"] { ; Take Romanian orthography into account
             if InStr(str, x) {
-               str := StrReplace(str, cedilla, comBelow,,, 1)
-               break
+            	str := StrReplace(str, cedilla, comBelow,,, 1)
+				break
             }
         }
     }

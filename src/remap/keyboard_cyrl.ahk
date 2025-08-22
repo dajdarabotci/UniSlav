@@ -23,6 +23,10 @@ A_IconTip := "UniSlav - Slavic Cyrillic"
 TraySetIcon("..\assets\cyrl.ico",,true)
 IniWrite(A_ScriptHwnd, A_Temp "\UniSlav.tmp", "HWND", "cyrl")
 #Include "modifier.ahk"
+OnExit clean
+clean(*) {
+   IniDelete(A_Temp "\UniSlav.tmp", "HWND", "cyrl")
+}
 
 ;row 1
 vk0E & 1::

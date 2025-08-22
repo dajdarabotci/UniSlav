@@ -23,6 +23,10 @@ A_IconTip := "UniSlav - Early Cyrillic"
 TraySetIcon("..\assets\cyrs.ico",,true)
 IniWrite(A_ScriptHwnd, A_Temp "\UniSlav.tmp", "HWND", "cyrs")
 #Include "modifier.ahk"
+OnExit clean
+clean(*) {
+   IniDelete(A_Temp "\UniSlav.tmp", "HWND", "cyrs")
+}
 
 ;Basic characters
 q::SendText("і")
