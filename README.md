@@ -14,7 +14,7 @@ See also [Wiki](https://github.com/Mijadaj/UniSlav/wiki).
 
 ## System Requirements
 
-- Windows 7 and later, 64-bit
+- **Windows 7 and later**, 64-bit
 
 ## Installation
 
@@ -25,7 +25,7 @@ See also [Wiki](https://github.com/Mijadaj/UniSlav/wiki).
 or
 
 1. Download the zip file from the latest release and decompress it. Replace the `UniSlav` folder wherever you want.
-1. Double-click the shortcut file `UniSlav Manager` under `UniSlav\`.
+1. Double-click the shortcut file `UniSlav Manager` under `UniSlav\`. If it doesn't work, go to `UniSlav\src\config\config.ahk` and open the file with AutoHotkey 64-bit.
 
 Please note that security software may issue a warning. In such cases, you can decide whether to proceed with the installation at your discretion. You can verify the safety of the program from [VirusTotal](https://www.virustotal.com/gui/home/upload).
 
