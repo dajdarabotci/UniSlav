@@ -1,0 +1,12 @@
+{
+    "markdown-to-html": {
+        "document": {
+            "title": "UniSlav README",
+            "description": "UniSlav: An Input Method for Typing Cyrillic, Latin, and Glagolitic Scripts Used in Slavic Languages."
+        },
+        "favicon": "src/assets/main.ico",
+        "reurls": {
+            "README.md": "README.html"
+        }
+    }
+}

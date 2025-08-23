@@ -18,20 +18,26 @@ See also [Wiki](https://github.com/Mijadaj/UniSlav/wiki).
 
 ## Installation
 
-1. Download the installer (`UniSlav_(version)_Installer.exe`) from the [Latest release](https://github.com/Mijadaj/UniSlav/releases/latest).
+1. Download the installer (`UniSlav_(version)_Installer.exe`) from the [latest release](https://github.com/Mijadaj/UniSlav/releases/latest).
 1. Run the installer and follow the on-screen instructions.
+1. After installation, open UniSlav Manager and click “Launch”.
 
-Please note that security software may issue a warning. In such cases, you can decide whether to proceed with the installation at your discretion. You can verify the safety of the program from [VirusTotal](https://www.virustotal.com/gui/collection/9de1861f5106060d44fd8b21743b46a1bfbc6f91dcd5989f24de09a0363ffb9d/iocs).
+or
+
+1. Download the zip file from the latest release and decompress it. Replace the `UniSlav` folder wherever you want.
+1. Double-click the shortcut file `UniSlav Manager` under `UniSlav\`.
+
+Please note that security software may issue a warning. In such cases, you can decide whether to proceed with the installation at your discretion. You can verify the safety of the program from [VirusTotal](https://www.virustotal.com/gui/home/upload).
 
 ## Usage
 
-1. Open **UniSlav Manager** and click "Launch".  
-1. Each keyboard can be activated or deactivated using the following hotkeys, which can be customized in the 'UniSlav Manager'.
+1. Open **UniSlav Manager** and click “Launch”.  
+1. Each keyboard can be activated or deactivated using the following hotkeys, which can be customized in the ‘UniSlav Manager’.
     - **`Ctrl + 1`** for Modern Slavic languages
         - **Slavic Cyrillic** (Press once)  
-    Russian, Ukrainian, Rusyn, Belarusian, Bulgarian, Macedonian, Serbian *etc.*
+            Russian, Ukrainian, Rusyn, Belarusian, Bulgarian, Macedonian, Serbian *etc.*
         - **Slavic Latin** (Press twice)  
-    Polish, Czech, Slovak, Croatian, Slovene, Bosnian, Montenegrin, Kashubian, Sorbian, Prekmurje Slovene, Banat Bulgarian, Proto-Slavic *etc.*; as well as several diacritics and ligatures from French, Romanian, Welsh, German, Icelandic, Lithuanian, Latvian, Hungarian, Esperanto.
+            Polish, Czech, Slovak, Croatian, Slovene, Bosnian, Montenegrin, Kashubian, Sorbian, Prekmurje Slovene, Banat Bulgarian, Proto-Slavic *etc.*; as well as several diacritics and ligatures from French, Romanian, Welsh, German, Icelandic, Lithuanian, Latvian, Hungarian, Esperanto.
     - **`Ctrl + 2`** for Church Slavonic
         - **Early Cyrillic, Glagolitic**
 
