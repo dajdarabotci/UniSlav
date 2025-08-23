@@ -54,14 +54,30 @@ Lang := Map(
     ,Toggle: "UniSlav を起動/終了"}
 )
 systemLang := A_Language != "0411"||"0011" ? "ja" : "en"
-currentLang := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "Lang", systemLang)
-HKModern := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "HKModern", "^1")
-HKChurch := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "HKChurch", "^2")
-Modifier := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "Modifier", 1)
-StartUp := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "StartUp", 0)
-Desktop := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "Desktop", 0)
+regPath := "HKEY_CURRENT_USER\Software\UniSlav"
+currentLang := RegRead(regPath "\Hotkey", "Lang", systemLang)
+HKModern := RegRead(regPath "\Hotkey", "HKModern", "^1")
+HKChurch := RegRead(regPath "\Hotkey", "HKChurch", "^2")
+Modifier := RegRead(regPath "\Hotkey", "Modifier", 1)
+StartUp := RegRead(regPath "\Hotkey", "StartUp", 0)
+Desktop := RegRead(regPath "\Hotkey", "Desktop", 0)
+repo := "Mijadaj/UniSlav"
+today := A_YYYY "-" A_MM "-" A_DD
+currentVersion := "0.2.0"
 
 createGui()
+try {
+    lastCheck := RegRead(regPath, "LastUpdate")
+}
+catch {
+    lastCheck := ""
+}
+
+if lastCheck != today {
+    CheckUpdate()
+    RegWrite(today, "REG_SZ", regPath, "LastUpdate")
+}
+
 createGui() {
     global
     admin := Gui()
@@ -86,15 +102,16 @@ createGui() {
     admin.Add("Button", "vSave Center", Lang[currentLang].Save)
     ;Tab2 info
     admin["Tab"].UseTab(2)
-    admin.Add("Text", ,"Version:`n`nSoftware License:`n`n`nGitHub:`n`n`nKeyboard Layouts:")
-    admin.Add("Link", "x+10", '0.2.0`n`n'
-                            '<a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU General Public License, version 2</a>`n'
-                            'Copyright © 2024-2025 <a href="https://github.com/Mijadaj">Міја</a>`n`n'
+    admin.Add("Button", "vCheckUpdate Center", "Check for updates")
+    admin.Add("Text", ,"Version:`n`nSoftware License:`n`n`nGitHub:`n`nKeyboard Layouts:")
+    admin.Add("Link", "x+10", currentVersion '`n`n'
+                            '<a href="..\..\LICENSE">GNU General Public License, version 2</a>`n'
+                            'Copyright © 2024-' A_YYYY ' Міја`n`n'
                             '<a href="https://github.com/Mijadaj/UniSlav">Repository</a>, '
-                            '<a href="https://github.com/Mijadaj/UniSlav/releases/latest">Latest release</a>,`n'
-                            '<a href="https://github.com/Mijadaj/UniSlav/wiki">Wiki (Key Layouts)</a>,`n`n'
+                            '<a href="https://github.com/Mijadaj/UniSlav/wiki">Wiki</a>`n`n'
                             '<a href="..\..\README.html">README</a>'
     )
+    admin["CheckUpdate"].OnEvent("Click", CheckUpdate)
     ;bottom
     admin["Tab"].UseTab(0)
     admin.Add("Button", "vToggle Center", Lang[currentLang].Toggle)
@@ -156,4 +173,68 @@ createGui() {
             Run A_ScriptDir "\..\AutoHotkey64_UniSlav.exe" " ..\UniSlav.ahk"
         }
     }
+}
+
+CheckUpdate(*) {
+    global repo, currentVersion, latestVersion, updateAvailable, admin, UpdateBtn, MainTab
+    url := "https://api.github.com/repos/" repo "/releases/latest"
+    http := ComObject("WinHttp.WinHttpRequest.5.1")
+    http.Open("GET", url, false)
+    http.Send()
+    response := http.ResponseText
+
+    ; Get latest version
+    if RegExMatch(response, "`"tag_name`":\s*`"v(.*?)`"", &match)
+        latestVersion := match[1]
+    if IsNewerVersion(currentVersion, latestVersion) {
+        updateAvailable := true
+        if MsgBox("The new version " latestVersion " is available.`nUpdate now?",, 0x124) = "Yes"
+            DoUpdate()
+    } else {
+        updateAvailable := false
+        MsgBox("This is the latest version (v" currentVersion ")")
+    }
+}
+DoUpdate(*) {
+    global repo, updateAvailable, installDir
+    if !updateAvailable
+        return
+    url := "https://api.github.com/repos/" repo "/releases/latest"
+    http := ComObject("WinHttp.WinHttpRequest.5.1")
+    http.Open("GET", url, false)
+    http.Send()
+    response := http.ResponseText
+    if !RegExMatch(response, "`"browser_download_url`":\s*`"(.*?)`"", &match) {
+        MsgBox("Download URL not found")
+        return
+    }
+    downloadUrl := match[1]
+    savePath := A_Temp "\update_UniSlav.exe"
+    Download(downloadUrl, savePath)
+
+    if FileExist(savePath) {
+        if MsgBox("Update available. Close the app to install?",, 0x24) = "Yes" {
+            silentParams := "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES"
+            installDir := A_WorkingDir "..\..\..\"
+            silentParams .= " /DIR=`"" installDir "\v" latestVersion "`""
+            Run(savePath " " silentParams)
+            ExitApp
+        }
+    } else {
+        MsgBox("Download failed")
+    }
+}
+IsNewerVersion(current, latest) {
+    curParts := StrSplit(current, ".")
+    latParts := StrSplit(latest, ".")
+
+    for i, _ in curParts {
+        c := Number(curParts[i])
+        l := Number(latParts[i])
+        if l > c
+            return true
+        else if l < c
+            return false
+    }
+    return false
 }
