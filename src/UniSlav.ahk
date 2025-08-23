@@ -16,10 +16,11 @@ along with this program; if not, see
 <https://www.gnu.org/licenses/>.
 */
 
+#Requires AutoHotkey >=2.0
 #SingleInstance Force
 DetectHiddenWindows(true)
 A_IconTip := "UniSlav"
-TraySetIcon("icon\main.ico",, false)
+TraySetIcon("assets\main.ico",, false)
 IniWrite(A_ScriptHwnd, A_Temp "\UniSlav.tmp", "HWND", "ctrl")
 SetTimer(ToolTip,-2000)
 ToolTip("UniSlav launched.")
@@ -33,7 +34,7 @@ Hotkey(HKChurch,ChurchKB,"On")
 ModernKB(*) {
     global
     checkWin()
-    if !currentScript {
+    if !thisScript {
         A_IconHidden := 1
         Run(ahkPath " remap\keyboard_cyrl.ahk")
         SetTimer(ToolTip,-1500)
@@ -41,13 +42,13 @@ ModernKB(*) {
     }
     else if WinCyrl {
         A_IconHidden := 1
-        WinClose("ahk_id " HWND_cyrl)
+        WinClose("ahk_id " WinCyrl)
         Run(ahkPath " remap\keyboard_latn.ahk")
         SetTimer(ToolTip,-1500)
         ToolTip("Slavic Latin")
     }
     else if WinLatn {
-        WinClose("ahk_id" HWND_latn)
+        WinClose("ahk_id" WinLatn)
         A_IconHidden := 0
         SetTimer(ToolTip,-1500)
         ToolTip("Exiting keyboard mode...")
@@ -59,7 +60,7 @@ ModernKB(*) {
 ChurchKB(*) {
     global
     checkWin()
-    if !currentScript {
+    if !thisScript {
         A_IconHidden := 1
         Run(ahkPath " remap\keyboard_cyrs.ahk")
         SetTimer(ToolTip,-1500)
@@ -67,13 +68,13 @@ ChurchKB(*) {
     }
     else if WinCyrs {
         A_IconHidden := 1
-        WinClose("ahk_id" HWND_cyrs)
+        WinClose("ahk_id" WinCyrs)
         Run(ahkPath " remap\keyboard_glag.ahk")
         SetTimer(ToolTip,-1500)
         ToolTip("Glagolitic")
     }
     else if WinGlag {
-        WinClose("ahk_id" HWND_glag)
+        WinClose("ahk_id" WinGlag)
         A_IconHidden := 0
         SetTimer(ToolTip,-1500)
         ToolTip("Exiting keyboard mode...")
@@ -84,18 +85,14 @@ ChurchKB(*) {
 }
 checkWin() {
     global
-    HWND_cyrl := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrl", "")
-    HWND_latn := IniRead(A_Temp "\UniSlav.tmp", "HWND", "latn", "")
-    HWND_cyrs := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrs", "")
-    HWND_glag := IniRead(A_Temp "\UniSlav.tmp", "HWND", "glag", "")
-    WinCyrl := WinExist("ahk_id " HWND_cyrl)
-    WinLatn := WinExist("ahk_id " HWND_latn)
-    WinCyrs := WinExist("ahk_id " HWND_cyrs)
-    WinGlag := WinExist("ahk_id " HWND_glag)
+    WinCyrl := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrl", "")
+    WinLatn := IniRead(A_Temp "\UniSlav.tmp", "HWND", "latn", "")
+    WinCyrs := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrs", "")
+    WinGlag := IniRead(A_Temp "\UniSlav.tmp", "HWND", "glag", "")
     if !(WinCyrl || WinLatn || WinCyrs || WinGlag)
-        currentScript := false
+        thisScript := false
     else
-        currentScript := true
+        thisScript := true
 }
 switchKeyboard(new,old) {
     global
@@ -107,9 +104,10 @@ switchKeyboard(new,old) {
         closeCyrs()
         closeGlag()
     }
-    Send new
+    Sleep 0
+    Send(new)
 }
-
+;
 OnExit cleanUp
 cleanUp(*) {
     ToolTip("Exiting UniSlav.")
@@ -124,17 +122,17 @@ cleanUp(*) {
 
 closeCyrl() {
     if WinCyrl
-        WinClose("ahk_id" HWND_cyrl)
+        WinClose("ahk_id" WinCyrl)
 }
 closeLatn() {
     if WinLatn
-        WinClose("ahk_id" HWND_latn)
+        WinClose("ahk_id" WinLatn)
 }
 closeCyrs() {
     if WinCyrs
-        WinClose("ahk_id" HWND_cyrs)
+        WinClose("ahk_id" WinCyrs)
 }
 closeGlag() {
     if WinGlag
-        WinClose("ahk_id" HWND_glag)
+        WinClose("ahk_id" WinGlag)
 }

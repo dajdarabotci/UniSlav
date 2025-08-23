@@ -17,19 +17,20 @@ along with this program; if not, see
 */
 
 ;Slavic Latin keyboard
+#Requires AutoHotkey >=2.0
 #SingleInstance Force
 A_IconTip := "UniSlav - Slavic Latin"
-TraySetIcon("..\icon\latn.ico",,false)
+TraySetIcon("..\assets\latn.ico",,true)
 IniWrite(A_ScriptHwnd, A_Temp "\UniSlav.tmp", "HWND", "latn")
 #Include "modifier.ahk"
 
 ;row 1
-vk0E & 1:: ;-> lengthened & nasalized
+vk0E & 1:: ;-> lengthening
 {
    if GetKeyState("Shift")
       Send("")
    else
-      Send("ː") ; lengthened
+      Send("ː") ; lengthening
 }
 vk0E & 2:: ;-> кавычки-left
 {
@@ -87,7 +88,7 @@ vk0E & 9:: ;->
    else
       Send("‚") ; SINGLE LOW-9 QUOTATION MARK
 }
-vk0E & 0:: ;-> dotted circle & affricate
+vk0E & sc00B:: ;-> dotted circle & affricate
 {
    if GetKeyState("Shift")
       Send("{U+0361}") ; affricate
@@ -112,9 +113,9 @@ vk0E & sc00D:: ; ^
 vk0E & sc07D:: ; \ (only for JIS keyboard)
 {
    if GetKeyState("Shift")
-      Send("Ъ")
+      Send("Ŷ")
    else
-      Send("ъ")
+      Send("ŷ")
  }
 
 ;row 2
@@ -186,30 +187,29 @@ vk0E & o::
 vk0E & p::
 {
    if GetKeyState("Shift")
-      Send("Ǫ")
-   else
-      Send("ǫ")
-}
-sc01A::Send("{U+0301}") ; acute accent
-vk0E & sc01A:: ;@
-{
-   if GetKeyState("Shift")
       Send("Ô")
    else
       Send("ô")
 }
-vk0E & sc01B:: ;[
+vk0E & sc01A:: ; @
 {
    if GetKeyState("Shift")
-      Send("Ŷ")
+      Send("Ǫ")
    else
-      Send("ŷ")
+      Send("ǫ")
+}
+vk0E & sc01B:: ; [
+{
+   if GetKeyState("Shift")
+      Send("Ъ")
+   else
+      Send("ъ")
  }
 
 ;row 3
 vk0E & a::
 {
-   if GetKeyState("Shift")
+   if GetKeyState("Ctrl")
       Send("Á")
    else
       Send("á")
@@ -354,9 +354,9 @@ vk0E & sc033:: ; comma
 vk0E & sc034:: ; period
 {
    if GetKeyState("Shift")
-      Send("Ľ")
+    	Send("Ľ")
    else
-      Send("ľ")
+    	Send("ľ")
 }
 vk0E & sc035:: ; slash
 {
@@ -373,6 +373,94 @@ vk0E & sc073:: ; back slash (only for JIS keyboard)
       Send("î")
  }
 
+;Dead keys
+^sc00B::AddMark(0x0306) ; breve {0}
+^+sc00B::AddMark(0x0311) ; inverted breve {0}
+^sc00C::AddMark(0x0304) ; macron {-}
+^+sc00C::AddMark(0x0303) ; tilde {-}
+^sc00D::AddMark(0x0302) ; circumflex {^}
+^+sc00D::AddMark(0x030C) ; caron/háček {^}
+^sc01A::AddMark(0x0300) ; grave {@}
+^+sc01A::AddMark(0x030F) ; double grave {@}
+^sc01B::AddMark(0x0301) ; accute {[}
+^+sc01B::AddMark(0x030B) ; double accute {[}
+^sc027::AddMark(0x0328) ; ogonek {;}
+^+sc027::AddMark(0x032F) ; inverted breve below {;}
+^sc028::AddMark(0x0308) ; trema {:}
+^sc02B::AddMark(0xE000) ; misc. {]}
+^sc033::AddMark(0x0327) ; cedilla / comma below (0x0326) {,}
+^sc034::AddMark(0x0323) ; dot below {.}
+^+sc034::AddMark(0x0307) ; dot above {.}
+^sc035::AddMark(0x0325) ; ring below {/}
+^+sc035::AddMark(0x030A) ; ring above {/}
+
+global hNorm := DllCall("LoadLibrary", "str", "Normaliz.dll", "ptr")
+global PendingMarks := "" ; Store combining marks
+global NextKeyHook := 0 ; Check if InputHook waiting
+
+normalizeNFC(str) {
+    size := DllCall("Normaliz\NormalizeString", "int", 0x1, "str", str, "int", -1, "ptr", 0, "int", 0, "int")
+    if (size <= 0)
+        return str
+    buf := Buffer(size * 2) ; 
+    ret := DllCall("Normaliz\NormalizeString", "int", 0x1, "str", str, "int", -1, "ptr", buf, "int", size, "int")
+    return ret > 0 ? StrGet(buf, "UTF-16") : str
+}
+OnExit clean
+clean(*) {
+   DllCall("FreeLibrary", "ptr", hNorm)
+   IniDelete(A_Temp "\UniSlav.tmp", "HWND", "latn")
+}
+
+AddMark(cp) {
+    global PendingMarks, NextKeyHook
+    PendingMarks .= Chr(cp)
+    if (IsObject(NextKeyHook))
+        return
+    ih := InputHook("L1")
+    ih.Start()
+    NextKeyHook := ih
+    WaitForNextKey()
+}
+
+WaitForNextKey() {
+    global PendingMarks, NextKeyHook
+    ih := NextKeyHook
+    ih.Wait()
+    NextKeyHook := 0
+    ch := ih.Input
+    out := ch . PendingMarks
+    PendingMarks := ""
+    out := AdjustStr(out)
+    SendText(normalizeNFC(out))
+}
+
+AdjustStr(str) { ; 
+    modifier := Chr(0xE000)
+    cedilla := Chr(0x0327)
+    comBelow := Chr(0x326)
+    if InStr(str, modifier) {
+        misc := Array(
+            ["a", "æ"], ["o", "œ"], ["u", "ø"], ["s", "ß"], ["e", "ə"], ["d", "ð"], ["t", "þ"], ["i", "ı"]
+           ,["A", "Æ"], ["O", "Œ"], ["U", "Ø"], ["S", "ẞ"], ["E", "Ə"], ["D", "Ð"], ["T", "Þ"]
+        )
+        for x in misc {
+            str := StrReplace(str, x[1], x[2], 1, &count, 1)
+        } until count
+        str := StrReplace(str, modifier)
+    }
+    if InStr(str, cedilla) {
+        for x in ["s", "t"] { ; Take Romanian orthography into account
+            if InStr(str, x) {
+            	str := StrReplace(str, cedilla, comBelow,,, 1)
+				break
+            }
+        }
+    }
+    return str
+}
+
+/*
 ;miscellaneous characters
 Ctrl & 0::
 {
