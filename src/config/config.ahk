@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2024 Міја
+Copyright (C) 2024-2025 Міја
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -15,11 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, see
 <https://www.gnu.org/licenses/>.
 */
-;@Ahk2Exe-SetMainIcon %A_ScriptDir%\..\assets\main.ico
-;@Ahk2Exe-SetCopyright Copyright © 2024-2025 Міја
-;@Ahk2Exe-SetDescription UniSlav Manager
-;@Ahk2Exe-SetName UniSlav
-;@Ahk2Exe-SetVersion 0.2.0
 #SingleInstance Force
 #NoTrayIcon
 TraySetIcon("..\assets\main.ico")
@@ -63,19 +58,86 @@ StartUp := RegRead(regPath "\Hotkey", "StartUp", 0)
 Desktop := RegRead(regPath "\Hotkey", "Desktop", 0)
 repo := "Mijadaj/UniSlav"
 today := A_YYYY "-" A_MM "-" A_DD
-currentVersion := "0.2.0"
+currentVersion := "0.2.1"
 
 createGui()
-try {
-    lastCheck := RegRead(regPath, "LastUpdate")
-}
-catch {
-    lastCheck := ""
+lastCheck := RegRead(regPath, "LastUpdate", "")
+if lastCheck != today {
+    dayFirstCheck := CheckUpdate()
+    if dayFirstCheck >= 0 {
+        if dayFirstCheck = 1
+            DoUpdate()
+        RegWrite(today, "REG_SZ", regPath, "LastUpdate")
+    }
 }
 
-if lastCheck != today {
-    CheckUpdate()
-    RegWrite(today, "REG_SZ", regPath, "LastUpdate")
+CheckUpdate(*) {
+    global currentVersion, latestVersion, response
+    response := GetLatestRelease()
+    ; Get latest version
+    if RegExMatch(response, "`"tag_name`":\s*`"v(.*?)`"", &match)
+        latestVersion := match[1]
+    else
+        return -1 ; Failed to get latest version
+    ;latestVersion := "0.2.1"
+    if IsNewerVersion(currentVersion, latestVersion)
+        return 1 ; There's a new version
+    else
+        return 0 ; This is the latest version
+}
+GetLatestRelease(*) {
+    url := "https://api.github.com/repos/" repo "/releases/latest"
+    try {
+        http := ComObject("WinHttp.WinHttpRequest.5.1")
+        http.Open("GET", url, false)
+        http.Send()
+        return http.ResponseText
+    }
+    catch Error as e {
+        admin.Opt("+OwnDialogs")
+        MsgBox(e.Message,, 0x30)
+        return
+    }
+}
+DoUpdate(*) {
+    global response
+    admin.Opt("+OwnDialogs")
+    update := MsgBox("The new version " latestVersion " is available. Update now?`nSee GitHub Releases on the Information tab for more details.",, 0x124)
+    if update = "No"
+        return
+    if !RegExMatch(response, "`"browser_download_url`":\s*`"(.*?)`"", &match) {
+        MsgBox("Download URL not found",, 0x30)
+        return
+    }
+    downloadUrl := match[1]
+    savePath := A_Temp "\update_UniSlav.exe"
+    Download(downloadUrl, savePath)
+
+    if FileExist(savePath) {
+        if MsgBox("Update available. Close the app to install?",, 0x24) = "Yes" {
+            silentParams := "/SILENT /SUPPRESSMSGBOXES"
+            Run(savePath " " silentParams)
+            ExitApp
+        }
+    } else {
+        MsgBox("Download failed",, 0x30)
+    }
+}
+IsNewerVersion(current, latest) {
+    curParts := StrSplit(current, [".","-"])
+    latParts := StrSplit(latest, [".","-"])
+    for i, _ in latParts {
+        c := Number(curParts[i])
+        l := Number(latParts[i])
+        if l > c
+            return true
+        else if l < c
+            return false
+    } until i = 3
+    if curParts.Length > latParts.Length
+        return true ; Update prerelease. e.g. v0.1.5-beta to v0.1.5
+    else
+        return false
 }
 
 createGui() {
@@ -103,15 +165,15 @@ createGui() {
     ;Tab2 info
     admin["Tab"].UseTab(2)
     admin.Add("Button", "vCheckUpdate Center", "Check for updates")
-    admin.Add("Text", ,"Version:`n`nSoftware License:`n`n`nGitHub:`n`nKeyboard Layouts:")
+    admin.Add("Text", ,"Version:`n`nSoftware License:`n`n`nGitHub:`n`nUsage:")
     admin.Add("Link", "x+10", currentVersion '`n`n'
                             '<a href="..\..\LICENSE">GNU General Public License, version 2</a>`n'
                             'Copyright © 2024-' A_YYYY ' Міја`n`n'
                             '<a href="https://github.com/Mijadaj/UniSlav">Repository</a>, '
-                            '<a href="https://github.com/Mijadaj/UniSlav/wiki">Wiki</a>`n`n'
+                            '<a href="https://github.com/Mijadaj/UniSlav/releases">Releases</a>`n`n'
                             '<a href="..\..\README.html">README</a>'
     )
-    admin["CheckUpdate"].OnEvent("Click", CheckUpdate)
+    admin["CheckUpdate"].OnEvent("Click", CheckUpdate_Click)
     ;bottom
     admin["Tab"].UseTab(0)
     admin.Add("Button", "vToggle Center", Lang[currentLang].Toggle)
@@ -173,68 +235,13 @@ createGui() {
             Run A_ScriptDir "\..\AutoHotkey64_UniSlav.exe" " ..\UniSlav.ahk"
         }
     }
-}
-
-CheckUpdate(*) {
-    global repo, currentVersion, latestVersion, updateAvailable, admin, UpdateBtn, MainTab
-    url := "https://api.github.com/repos/" repo "/releases/latest"
-    http := ComObject("WinHttp.WinHttpRequest.5.1")
-    http.Open("GET", url, false)
-    http.Send()
-    response := http.ResponseText
-
-    ; Get latest version
-    if RegExMatch(response, "`"tag_name`":\s*`"v(.*?)`"", &match)
-        latestVersion := match[1]
-    if IsNewerVersion(currentVersion, latestVersion) {
-        updateAvailable := true
-        if MsgBox("The new version " latestVersion " is available.`nUpdate now?",, 0x124) = "Yes"
+    CheckUpdate_Click(*) {
+        local status := CheckUpdate()
+        if status = 1
             DoUpdate()
-    } else {
-        updateAvailable := false
-        MsgBox("This is the latest version (v" currentVersion ")")
-    }
-}
-DoUpdate(*) {
-    global repo, updateAvailable, installDir
-    if !updateAvailable
-        return
-    url := "https://api.github.com/repos/" repo "/releases/latest"
-    http := ComObject("WinHttp.WinHttpRequest.5.1")
-    http.Open("GET", url, false)
-    http.Send()
-    response := http.ResponseText
-    if !RegExMatch(response, "`"browser_download_url`":\s*`"(.*?)`"", &match) {
-        MsgBox("Download URL not found")
-        return
-    }
-    downloadUrl := match[1]
-    savePath := A_Temp "\update_UniSlav.exe"
-    Download(downloadUrl, savePath)
-
-    if FileExist(savePath) {
-        if MsgBox("Update available. Close the app to install?",, 0x24) = "Yes" {
-            silentParams := "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES"
-            installDir := A_WorkingDir "..\..\..\"
-            silentParams .= " /DIR=`"" installDir "\v" latestVersion "`""
-            Run(savePath " " silentParams)
-            ExitApp
+        else if status = 0 {
+            admin.Opt("+OwnDialogs")
+            MsgBox("This is the latest version (v" currentVersion ")")
         }
-    } else {
-        MsgBox("Download failed")
     }
-}
-IsNewerVersion(current, latest) {
-    curParts := StrSplit(current, ".")
-    latParts := StrSplit(latest, ".")
-
-    for i, _ in curParts {
-        c := Number(curParts[i])
-        l := Number(latParts[i])
-        if l > c
-            return true
-        else if l < c
-            return false
-    }
-    return false
 }
