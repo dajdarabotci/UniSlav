@@ -97,9 +97,9 @@ sc034::SendText("ю")
 +sc034::SendText("Ю")
 sc035::SendText(",")
 +sc035::SendText(".")
-sc073::SendText("{U+0483}") ;titlo
-+sc073::SendText("{U+0484}") ;soft sign
-Space::SendText("{U+0020}") ;space
+sc073::Send("{U+0483}") ;titlo
++sc073::Send("{U+0484}") ;soft sign
+Space::Send("{U+0020}") ;space
 
 ; secondary keyboard
 ~vk0E & q:: ;-> iota
