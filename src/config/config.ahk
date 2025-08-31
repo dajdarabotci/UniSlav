@@ -79,7 +79,6 @@ CheckUpdate(*) {
         latestVersion := match[1]
     else
         return -1 ; Failed to get latest version
-    ;latestVersion := "0.2.1"
     if IsNewerVersion(currentVersion, latestVersion)
         return 1 ; There's a new version
     else
@@ -102,8 +101,8 @@ GetLatestRelease(*) {
 DoUpdate(*) {
     global response
     admin.Opt("+OwnDialogs")
-    update := MsgBox("The new version " latestVersion " is available. Update now?`nSee GitHub Releases on the Information tab for more details.",, 0x124)
-    if update = "No"
+    update := MsgBox("The new version " latestVersion " is available. Update now?`nSee GitHub Releases on the Information tab for more details.",, 0x121)
+    if update = "Cancel"
         return
     if !RegExMatch(response, "`"browser_download_url`":\s*`"(.*?)`"", &match) {
         MsgBox("Download URL not found",, 0x30)
@@ -114,7 +113,12 @@ DoUpdate(*) {
     Download(downloadUrl, savePath)
 
     if FileExist(savePath) {
-        if MsgBox("Update available. Close the app to install?",, 0x24) = "Yes" {
+        HWND_Ctrl := IniRead(A_Temp "\UniSlav.tmp", "HWND", "ctrl", "")
+        if MsgBox("Update available. Close the app to install?",, 0x21) = "OK" {
+            try {
+                WinClose("ahk_id " HWND_Ctrl)
+                WinWaitClose("ahk_id " HWND_Ctrl,,5)
+            }
             silentParams := "/SILENT /SUPPRESSMSGBOXES"
             Run(savePath " " silentParams)
             ExitApp
@@ -226,14 +230,10 @@ createGui() {
 
     toggle_Click(*) {
         HWND_Ctrl := IniRead(A_Temp "\UniSlav.tmp", "HWND", "ctrl", "")
-        SetTimer(ToolTip,-1500)
-        if WinExist("ahk_id " HWND_Ctrl) {
+        if WinExist("ahk_id " HWND_Ctrl)
             WinClose("ahk_id " HWND_Ctrl)
-            ToolTip()
-        }
-        else {
+        else
             Run A_ScriptDir "\..\AutoHotkey64_UniSlav.exe" " ..\UniSlav.ahk"
-        }
     }
     CheckUpdate_Click(*) {
         local status := CheckUpdate()
