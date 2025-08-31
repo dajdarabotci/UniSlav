@@ -121,18 +121,26 @@ cleanUp(*) {
 }
 
 closeCyrl() {
-    if WinCyrl
-        WinClose("ahk_id" WinCyrl)
+    if WinCyrl {
+        WinClose("ahk_id " WinCyrl)
+        WinWaitClose("ahk_id " WinCyrl)
+    }
 }
 closeLatn() {
-    if WinLatn
-        WinClose("ahk_id" WinLatn)
+    if WinLatn {
+        WinClose("ahk_id " WinLatn)
+        WinWaitClose("ahk_id " WinLatn)
+    }
 }
 closeCyrs() {
-    if WinCyrs
-        WinClose("ahk_id" WinCyrs)
+    if WinCyrs {
+        WinClose("ahk_id " WinCyrs)
+        WinWaitClose("ahk_id " WinCyrs)
+    }
 }
 closeGlag() {
-    if WinGlag
-        WinClose("ahk_id" WinGlag)
+    if WinGlag {
+        WinClose("ahk_id " WinGlag)
+        WinWaitClose("ahk_id " WinGlag)
+    }
 }
