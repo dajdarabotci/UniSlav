@@ -23,6 +23,11 @@ A_IconTip := "UniSlav - Slavic Latin"
 TraySetIcon("..\assets\latn.ico",,true)
 IniWrite(A_ScriptHwnd, A_Temp "\UniSlav.tmp", "HWND", "latn")
 #Include "modifier.ahk"
+OnExit clean
+clean(*) {
+   DllCall("FreeLibrary", "ptr", hNorm)
+   IniDelete(A_Temp "\UniSlav.tmp", "HWND", "latn")
+}
 
 ;row 1
 ~vk0E & 1:: ;-> lengthening
@@ -405,11 +410,6 @@ normalizeNFC(str) {
     buf := Buffer(size * 2) ; 
     ret := DllCall("Normaliz\NormalizeString", "int", 0x1, "str", str, "int", -1, "ptr", buf, "int", size, "int")
     return ret > 0 ? StrGet(buf, "UTF-16") : str
-}
-OnExit clean
-clean(*) {
-   DllCall("FreeLibrary", "ptr", hNorm)
-   IniDelete(A_Temp "\UniSlav.tmp", "HWND", "latn")
 }
 
 AddMark(cp) {

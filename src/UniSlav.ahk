@@ -28,59 +28,49 @@ ToolTip("UniSlav launched.")
 ahkPath := A_ScriptDir "\AutoHotkey64_UniSlav.exe"
 HKModern := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "HKModern", "^1")
 HKChurch := RegRead("HKEY_CURRENT_USER\Software\UniSlav\Hotkey", "HKChurch", "^2")
+lastKB := ""
 
-Hotkey(HKModern,ModernKB,"On")
-Hotkey(HKChurch,ChurchKB,"On")
+Hotkey(HKModern " Up", ModernKB, "On")
+Hotkey(HKChurch " Up", ChurchKB, "On")
+ModernKBSet := [["", "cyrl", "Slavic Cyrillic"], ["cyrl", "latn", "Slavic Latin"], ["latn", "", "Exiting keyboard mode..."], ["cyrs", "cyrl", "Slavic Cyrillic"], ["glag", "cyrl", "Slavic Cyrillic"]]
+ChurchKBSet := [["", "cyrs", "Early Cyrillic"], ["cyrs", "glag", "Glagolitic"], ["glag", "", "Exiting keyboard mode..."], ["cyrl", "cyrs", "Early Cyrillic"], ["latn", "cyrs", "Early Cyrillic"]]
+
 ModernKB(*) {
-    global
-    checkWin()
-    if !thisScript {
-        A_IconHidden := 1
-        Run(ahkPath " remap\keyboard_cyrl.ahk")
-        SetTimer(ToolTip,-1500)
-        ToolTip("Slavic Cyrillic")
-    }
-    else if WinCyrl {
-        A_IconHidden := 1
-        WinClose("ahk_id " WinCyrl)
-        Run(ahkPath " remap\keyboard_latn.ahk")
-        SetTimer(ToolTip,-1500)
-        ToolTip("Slavic Latin")
-    }
-    else if WinLatn {
-        WinClose("ahk_id" WinLatn)
-        A_IconHidden := 0
-        SetTimer(ToolTip,-1500)
-        ToolTip("Exiting keyboard mode...")
-    }
-    else {
-        switchKeyboard(HKModern,HKChurch)
+    global lastKB
+    for i, pair in ModernKBSet {
+        if lastKB = pair[1] {
+            if i > 1 {
+                hwnd := IniRead(A_Temp "\UniSlav.tmp", "HWND", pair[1], "")
+                if hwnd
+                    WinClose("ahk_id " hwnd)
+            }
+            A_IconHidden := (i != 3) ? 1 : 0
+            if i != 3
+                Run(ahkPath " remap\keyboard_" pair[2] ".ahk")
+            lastKB := pair[2]
+            SetTimer(ToolTip, -1500)
+            ToolTip(pair[3])
+            break
+        }
     }
 }
 ChurchKB(*) {
-    global
-    checkWin()
-    if !thisScript {
-        A_IconHidden := 1
-        Run(ahkPath " remap\keyboard_cyrs.ahk")
-        SetTimer(ToolTip,-1500)
-        ToolTip("Early Cyrillic")
-    }
-    else if WinCyrs {
-        A_IconHidden := 1
-        WinClose("ahk_id" WinCyrs)
-        Run(ahkPath " remap\keyboard_glag.ahk")
-        SetTimer(ToolTip,-1500)
-        ToolTip("Glagolitic")
-    }
-    else if WinGlag {
-        WinClose("ahk_id" WinGlag)
-        A_IconHidden := 0
-        SetTimer(ToolTip,-1500)
-        ToolTip("Exiting keyboard mode...")
-    }
-    else {
-        switchKeyboard(HKChurch,HKModern)
+    global lastKB
+    for i, pair in ChurchKBSet {
+        if lastKB = pair[1] {
+            if i > 1 {
+                hwnd := IniRead(A_Temp "\UniSlav.tmp", "HWND", pair[1], "")
+                if hwnd
+                    WinClose("ahk_id " hwnd)
+            }
+            A_IconHidden := (i != 3) ? 1 : 0
+            if i != 3
+                Run(ahkPath " remap\keyboard_" pair[2] ".ahk")
+            lastKB := pair[2]
+            SetTimer(ToolTip, -1500)
+            ToolTip(pair[3])
+            break
+        }
     }
 }
 checkWin() {
@@ -89,25 +79,8 @@ checkWin() {
     WinLatn := IniRead(A_Temp "\UniSlav.tmp", "HWND", "latn", "")
     WinCyrs := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrs", "")
     WinGlag := IniRead(A_Temp "\UniSlav.tmp", "HWND", "glag", "")
-    if !(WinCyrl || WinLatn || WinCyrs || WinGlag)
-        thisScript := false
-    else
-        thisScript := true
 }
-switchKeyboard(new,old) {
-    global
-    if old = HKModern {
-        closeCyrl()
-        closeLatn()
-    }
-    else if old = HKChurch {
-        closeCyrs()
-        closeGlag()
-    }
-    Sleep 0
-    Send(new)
-}
-;
+
 OnExit cleanUp
 cleanUp(*) {
     ToolTip("Exiting UniSlav.")
