@@ -73,18 +73,15 @@ ChurchKB(*) {
         }
     }
 }
-checkWin() {
+
+OnExit cleanUp
+cleanUp(*) {
     global
+    ToolTip("Exiting UniSlav.")
     WinCyrl := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrl", "")
     WinLatn := IniRead(A_Temp "\UniSlav.tmp", "HWND", "latn", "")
     WinCyrs := IniRead(A_Temp "\UniSlav.tmp", "HWND", "cyrs", "")
     WinGlag := IniRead(A_Temp "\UniSlav.tmp", "HWND", "glag", "")
-}
-
-OnExit cleanUp
-cleanUp(*) {
-    ToolTip("Exiting UniSlav.")
-    checkWin()
     closeCyrl()
     closeLatn()
     closeCyrs()
