@@ -30,7 +30,7 @@ Lang := Map(
     ,Text3: "Church Slavonic keyboard (Early Cyrillic, Glagolitic)"
     ,Text4: "This shortcut key cannot be set."
     ,Text5: "Modifier Key (for characters with diacritical marks such as Ў and Ą)"
-    ,Modifier: ["Muhenkan (sc07B)","Henkan (sc079)","Alt","AltGr","≣ Menu key"]
+    ,Modifier: ["Muhenkan (sc07B)","Henkan (sc079)","Left Alt","AltGr","≣ Menu key"]
     ,StartUp: "Automatically launch UniSlav on PC startup."
     ,Desktop: "Create a desktop shortcut."
     ,Save: "Apply"
@@ -42,7 +42,7 @@ Lang := Map(
     ,Text3: "教会スラヴ語キーボード (Early Cyrillic, Glagolitic)"
     ,Text4: "このショートカットキーは設定できません。"
     ,Text5: "修飾キー（Ў, Ą などのダイアクリティカル・マーク付き文字用）"
-    ,Modifier: ["無変換","変換","Alt","AltGr","≣ メニューキー"]
+    ,Modifier: ["無変換","変換","左Alt","AltGr","≣ メニューキー"]
     ,StartUp: "PC起動時に UniSlav を自動的に立ち上げる。"
     ,Desktop: "デスクトップ上にアイコンを作成する。"
     ,Save: "適用"
