@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2024 Міја
+Copyright (C) 2024-2025 Міја
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -29,77 +29,77 @@ clean(*) {
 }
 
 ;row 1
-vk0E & 1::
+~vk0E & 1::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & 2::
+~vk0E & 2::
 {
    if GetKeyState("Shift")
       Send("“") ;  left double quote
    else
       Send("«")
 }
-vk0E & 3::
+~vk0E & 3::
 {
    if GetKeyState("Shift")
       Send("”") ;  right double quote
    else
       Send("»")
 }
-vk0E & 4::
+~vk0E & 4::
 {
    if GetKeyState("Shift")
       Send("„")
    else
       Send("")
 }
-vk0E & 5::
+~vk0E & 5::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & 6::
+~vk0E & 6::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & 7::
+~vk0E & 7::
 {
    if GetKeyState("Shift")
       Send("ʹ") ; modifier letter prime
    else
       Send("‘") ; left single quotation
 }
-vk0E & 8::
+~vk0E & 8::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("’") ; right single quotation
 }
-vk0E & 9::
+~vk0E & 9::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("‚")
 }
-vk0E & 0::
+~vk0E & 0::
 {
    if GetKeyState("Shift")
       Send("∅")
    else
       Send("◌")
 }
-vk0E & sc00C::
+~vk0E & sc00C::
 {
    if GetKeyState("Shift")
       Send("–") ; en dash
@@ -107,18 +107,18 @@ vk0E & sc00C::
       Send("—") ; em dash
 }
 sc00D::Send("{U+0301}") ; combining acute accent
-vk0E & sc00D::
+~vk0E & sc00D::
 {
    if GetKeyState("Shift")
       SendText("~")
    else
       SendText("^")
  
-;row 2
+;row 2і
 }
 q::SendText("й")
 +q::SendText("Й")
-vk0E & q::
+~vk0E & q::
 {
    if GetKeyState("Shift")
       Send("І")
@@ -127,7 +127,7 @@ vk0E & q::
 }
 w::SendText("ц")
 +w::SendText("Ц")
-vk0E & w::
+~vk0E & w::
 {
    if GetKeyState("Shift")
       Send("Ї")	
@@ -136,7 +136,7 @@ vk0E & w::
 }
 e::SendText("у")
 +e::SendText("У")
-vk0E & e::
+~vk0E & e::
 {
    if GetKeyState("Shift")
       Send("Ў")
@@ -145,7 +145,7 @@ vk0E & e::
 }
 r::SendText("к")
 +r::SendText("К")
-vk0E & r::
+~vk0E & r::
 {
    if GetKeyState("Shift")
       Send("Ќ")
@@ -154,7 +154,7 @@ vk0E & r::
 }
 t::SendText("е")
 +t::SendText("Е")
-vk0E & t::
+~vk0E & t::
 {
    if GetKeyState("Shift")
       Send("Ё")
@@ -163,7 +163,7 @@ vk0E & t::
 }
 y::SendText("н")
 +y::SendText("Н")
-vk0E & y::
+~vk0E & y::
 {
    if GetKeyState("Shift")
       Send("Њ")
@@ -172,7 +172,7 @@ vk0E & y::
 }
 u::SendText("г")
 +u::SendText("Г")
-vk0E & u::
+~vk0E & u::
 {
    if GetKeyState("Shift")
       Send("Ѓ")
@@ -181,7 +181,7 @@ vk0E & u::
 }
 i::SendText("ш")
 +i::SendText("Ш")
-vk0E & i::
+~vk0E & i::
 {
    if GetKeyState("Shift")
       Send("Ґ")
@@ -190,7 +190,7 @@ vk0E & i::
 }
 o::SendText("щ")
 +o::SendText("Щ")
-vk0E & o::
+~vk0E & o::
 {
    if GetKeyState("Shift")
       Send("")
@@ -199,7 +199,7 @@ vk0E & o::
 }
 p::SendText("з")
 +p::SendText("З")
-vk0E & p::
+~vk0E & p::
 {
    if GetKeyState("Shift")
       Send("Ѕ")
@@ -208,7 +208,7 @@ vk0E & p::
 }
 sc01A::Send("х") ;@ mark
 +sc01A::Send("Х")
-vk0E & sc01A::
+~vk0E & sc01A::
 {
    if GetKeyState("Shift")
       Send("``")
@@ -217,7 +217,7 @@ vk0E & sc01A::
 }
 sc01B::Send("ъ") ;[
 +sc01B::Send("Ъ")
-vk0E & sc01B::
+~vk0E & sc01B::
 {
    if GetKeyState("Shift")
       SendText("{")
@@ -228,7 +228,7 @@ vk0E & sc01B::
 }
 a::SendText("ф")
 +a::SendText("Ф")
-vk0E & a::
+~vk0E & a::
 {
    if GetKeyState("Ctrl")
       Send("Ѳ")
@@ -237,7 +237,7 @@ vk0E & a::
 }
 s::SendText("ы")
 +s::SendText("Ы")
-vk0E & s::
+~vk0E & s::
 {
    if GetKeyState("Shift")
       Send("Ј")
@@ -246,7 +246,7 @@ vk0E & s::
 }
 d::SendText("в")
 +d::SendText("В")
-vk0E & d::
+~vk0E & d::
 {
    if GetKeyState("Shift")
       Send("")
@@ -255,7 +255,7 @@ vk0E & d::
 }
 f::SendText("а")
 +f::SendText("А")
-vk0E & f:: 
+~vk0E & f:: 
 {
    if GetKeyState("Shift")
       Send("")
@@ -264,7 +264,7 @@ vk0E & f::
 }
 g::SendText("п")
 +g::SendText("П")
-vk0E & g::
+~vk0E & g::
 {
    if GetKeyState("Shift")
       Send("Ѐ")
@@ -273,7 +273,7 @@ vk0E & g::
 }
 h::SendText("р")
 +h::SendText("Р")
-vk0E & h::
+~vk0E & h::
 {
    if GetKeyState("Shift")
       Send("")
@@ -282,7 +282,7 @@ vk0E & h::
 }
 j::SendText("о")
 +j::SendText("О")
-vk0E & j::
+~vk0E & j::
 {
    if GetKeyState("Shift")
       Send("")
@@ -291,7 +291,7 @@ vk0E & j::
 }
 k::SendText("л")
 +k::SendText("Л")
-vk0E & k::
+~vk0E & k::
 {
    if GetKeyState("Shift")
       Send("Љ")
@@ -300,7 +300,7 @@ vk0E & k::
 }
 l::SendText("д")
 +l::SendText("Д")
-vk0E & l::
+~vk0E & l::
 {
    if GetKeyState("Shift")
       Send("Ђ")
@@ -309,7 +309,7 @@ vk0E & l::
 }
 sc027::Send("ж") ; semicolonй
 +sc027::Send("Ж") ; semicolon
-vk0E & sc027:: ;semicolon
+~vk0E & sc027:: ;semicolon
 {
    if GetKeyState("Shift")
       Send("Џ")
@@ -318,7 +318,7 @@ vk0E & sc027:: ;semicolon
 }
 sc028::Send("э") ; colon
 +sc028::Send("Э") ; colon
-vk0E & sc028:: ;colon
+~vk0E & sc028:: ;colon
 {
    if GetKeyState("Shift")
       Send("Ѣ")
@@ -327,7 +327,7 @@ vk0E & sc028:: ;colon
 }
 sc02B::Send("є") ; right bracket
 +sc02B::Send("Є") ; right bracket
-vk0E & sc02B:: ;right bracket
+~vk0E & sc02B:: ;right bracket
 {
    if GetKeyState("Shift")
       SendText("}")
@@ -338,7 +338,7 @@ vk0E & sc02B:: ;right bracket
 ;row 3
 z::SendText("я")
 +z::SendText("Я")
-vk0E & z::
+~vk0E & z::
 {
    if GetKeyState("Shift")
       Send("")
@@ -347,7 +347,7 @@ vk0E & z::
 }
 x::SendText("ч")
 +x::SendText("Ч")
-vk0E & x::
+~vk0E & x::
 {
    if GetKeyState("Shift")
       Send("")
@@ -356,7 +356,7 @@ vk0E & x::
 }
 c::SendText("с")
 +c::SendText("С")
-vk0E & c::
+~vk0E & c::
 {
    if GetKeyState("Shift")
       Send("")
@@ -365,7 +365,7 @@ vk0E & c::
 }
 v::SendText("м")
 +v::SendText("М")
-vk0E & v::
+~vk0E & v::
 {
    if GetKeyState("Shift")
       Send("")
@@ -374,7 +374,7 @@ vk0E & v::
 }
 b::SendText("и")
 +b::SendText("И")
-vk0E & b::
+~vk0E & b::
 {
    if GetKeyState("Shift")
       Send("Ѝ")
@@ -383,7 +383,7 @@ vk0E & b::
 }
 n::SendText("т")
 +n::SendText("Т")
-vk0E & n::
+~vk0E & n::
 {
    if GetKeyState("Shift")
       Send("Ћ")
@@ -392,7 +392,7 @@ vk0E & n::
 }
 m::SendText("ь")
 +m::SendText("Ь")
-vk0E & m::
+~vk0E & m::
 {
    if GetKeyState("Shift")
       Send("")
@@ -401,7 +401,7 @@ vk0E & m::
 }
 sc033::Send("б")
 +sc033::Send("Б")
-vk0E & sc033::
+~vk0E & sc033::
 {
    if GetKeyState("Shift")
       Send(";")
@@ -410,7 +410,7 @@ vk0E & sc033::
 }
 sc034::Send("ю")
 +sc034::Send("Ю")
-vk0E & sc034::
+~vk0E & sc034::
 {
    if GetKeyState("Shift")
       Send(":")
@@ -419,7 +419,7 @@ vk0E & sc034::
 }
 sc035::Send(",") 
 +sc035::Send(".")
-vk0E & sc035::
+~vk0E & sc035::
 {
    if GetKeyState("Shift")
       Send("?")

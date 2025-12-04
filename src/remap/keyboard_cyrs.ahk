@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2024 Міја
+Copyright (C) 2024-2025 Міја
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -97,250 +97,250 @@ sc034::SendText("ю")
 +sc034::SendText("Ю")
 sc035::SendText(",")
 +sc035::SendText(".")
-sc073::SendText("{U+0483}") ;titlo
-+sc073::SendText("{U+0484}") ;soft sign
-Space::SendText("{U+0020}") ;space
+sc073::Send("{U+0483}") ;titlo
++sc073::Send("{U+0484}") ;soft sign
+Space::Send("{U+0020}") ;space
 
 ; secondary keyboard
-vk0E & q:: ;-> iota
+~vk0E & q:: ;-> iota
 {
    if GetKeyState("Shift")
       Send("Ꙇ")
    else
       Send("ꙇ")
 }
-vk0E & w:: ;-> uk(alternative)
+~vk0E & w:: ;-> uk(alternative)
 {
    if GetKeyState("Shift")
       Send("у")
    else
       Send("ѹ") ; unrecommended character
 }
-vk0E & e:: ;-> uk(vertical)
+~vk0E & e:: ;-> uk(vertical)
 {
    if GetKeyState("Shift")
       Send("Ꙋ")
    else
       Send("ꙋ")
 }
-vk0E & r:: ;-> ksi
+~vk0E & r:: ;-> ksi
 {
    if GetKeyState("Shift")
       Send("Ѯ")
    else
       Send("ѯ")
 }
-vk0E & t:: ;-> little yus
+~vk0E & t:: ;-> little yus
 {
    if GetKeyState("Shift")
       Send("Ѧ")
    else
       Send("ѧ")
 }
-vk0E & y::
+~vk0E & y::
 {
    if GetKeyState("Shift")
       Send("Ꙙ")
    else
       Send("ꙙ")
 }
-vk0E & u:: ;-> tshe
+~vk0E & u:: ;-> tshe
 {
    if GetKeyState("Shift")
       Send("Ћ")
    else
       Send("ћ")
 }
-vk0E & i:: ;-> djerv
+~vk0E & i:: ;-> djerv
 {
    if GetKeyState("Shift")
       Send("Ꙉ")
    else
       Send("ꙉ")
 }
-vk0E & o::
+~vk0E & o::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & p:: ;-> dze
+~vk0E & p:: ;-> dze
 {
    if GetKeyState("Shift")
       Send("Ѕ")
    else
       Send("ѕ")
 }
-vk0E & sc01A::
+~vk0E & sc01A::
 {
    if GetKeyState("Shift")
       Send("Ꙁ")
    else
       Send("ꙁ")
 }
-vk0E & sc01B::
+~vk0E & sc01B::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & a::
+~vk0E & a::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & s::
+~vk0E & s::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & d::
+~vk0E & d::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & f:: 
+~vk0E & f:: 
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & g:: ;-> psi
+~vk0E & g:: ;-> psi
 {
    if GetKeyState("Shift")
       Send("Ѱ")
    else
       Send("ѱ")
 }
-vk0E & h::
+~vk0E & h::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & j:: ;-> big yus
+~vk0E & j:: ;-> big yus
 {
    if GetKeyState("Shift")
       Send("Ѫ")
    else
       Send("ѫ")
 }
-vk0E & k:: ;-> omega
+~vk0E & k:: ;-> omega
 {
    if GetKeyState("Shift")
       Send("Ѡ")
    else
       Send("ѡ")
 }
-vk0E & l:: ;-> ot
+~vk0E & l:: ;-> ot
 {
    if GetKeyState("Shift")
       Send("Ѿ")
    else
       Send("ѿ")
 }
-vk0E & sc027::
+~vk0E & sc027::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & sc028:: ;-> iotified little yus
+~vk0E & sc028:: ;-> iotified little yus
 {
    if GetKeyState("Shift")
       Send("Ѩ")
    else
       Send("ѩ")
 }
-vk0E & sc02B::
+~vk0E & sc02B::
 {
    if GetKeyState("Shift")
       Send("Ꙝ")
    else
       Send("ꙝ")
 }
-vk0E & z::
+~vk0E & z::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & x:: ;-> koppa
+~vk0E & x:: ;-> koppa
 {
    if GetKeyState("Shift")
       Send("Ҁ")
    else
       Send("ҁ")
 }
-vk0E & c::
+~vk0E & c::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & v::
+~vk0E & v::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & b:: ;-> izhitsa
+~vk0E & b:: ;-> izhitsa
 {
    if GetKeyState("Shift")
       Send("Ѵ")
    else
       Send("ѵ")
 }
-vk0E & n:: ;-> fita
+~vk0E & n:: ;-> fita
 {
    if GetKeyState("Shift")
       Send("Ѳ")
    else
       Send("ѳ")
 }
-vk0E & m::
+~vk0E & m::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & sc033::
+~vk0E & sc033::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & sc034:: ;-> iotified big yus
+~vk0E & sc034:: ;-> iotified big yus
 {
    if GetKeyState("Shift")
       Send("Ѭ")
    else
       Send("ѭ")
 }
-vk0E & sc035::
+~vk0E & sc035::
 {
    if GetKeyState("Shift")
       Send("")
    else
       Send("")
 }
-vk0E & sc073::
+~vk0E & sc073::
 {
    if GetKeyState("Shift")
       Send("")
