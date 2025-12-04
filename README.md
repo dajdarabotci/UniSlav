@@ -2,7 +2,7 @@
 <!--markdown-to-html --config .github\config.json --output README.html --img-base64-->
 <img src="https://repository-images.githubusercontent.com/576129241/8f6e8523-3c46-4c27-bb85-208bace37b43" alt="Description of UniSlav" width="640">
 
-See also [Wiki](https://github.com/Mijadaj/UniSlav/wiki).
+See also [Wiki](https://github.com/dajdarabotci/UniSlav/wiki).
 
 ## Features
 
@@ -18,7 +18,7 @@ See also [Wiki](https://github.com/Mijadaj/UniSlav/wiki).
 
 ## Installation
 
-1. Download the installer (`UniSlav_(version)_Installer.exe`) from the [latest release](https://github.com/Mijadaj/UniSlav/releases/latest).
+1. Download the installer (`UniSlav_(version)_Installer.exe`) from the [latest release](https://github.com/dajdarabotci/UniSlav/releases/latest).
 1. Run the installer and follow the on-screen instructions.
 1. After installation, open UniSlav Manager and click “Launch”.
 
@@ -43,7 +43,7 @@ Please note that security software may issue a warning. In such cases, you can d
 
 **Note:**
 The developer usually uses a 106/109 Japanese keyboard and has developed this AHK script accordingly, so it may not be directly applicable to keyboards for other languages.
-If so, please [fork this repository](https://github.com/Mijadaj/UniSlav/fork) and adjust the hotkeys as needed.
+If so, please [fork this repository](https://github.com/dajdarabotci/UniSlav/fork) and adjust the hotkeys as needed.
 
 ### Position of Each Key Based on JIS Layout
 

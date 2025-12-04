@@ -56,7 +56,7 @@ HKChurch := RegRead(regPath "\Hotkey", "HKChurch", "^2")
 Modifier := RegRead(regPath "\Hotkey", "Modifier", 1)
 StartUp := RegRead(regPath "\Hotkey", "StartUp", 0)
 Desktop := RegRead(regPath "\Hotkey", "Desktop", 0)
-repo := "Mijadaj/UniSlav"
+repo := "dajdarabotci/UniSlav"
 today := A_YYYY "-" A_MM "-" A_DD
 currentVersion := "0.2.1"
 
@@ -173,8 +173,8 @@ createGui() {
     admin.Add("Link", "x+10", currentVersion '`n`n'
                             '<a href="..\..\LICENSE">GNU General Public License, version 2</a>`n'
                             'Copyright © 2024-' A_YYYY ' Міја`n`n'
-                            '<a href="https://github.com/Mijadaj/UniSlav">Repository</a>, '
-                            '<a href="https://github.com/Mijadaj/UniSlav/releases">Releases</a>`n`n'
+                            '<a href="https://github.com/dajdarabotci/UniSlav">Repository</a>, '
+                            '<a href="https://github.com/dajdarabotci/UniSlav/releases">Releases</a>`n`n'
                             '<a href="..\..\README.html">README</a>'
     )
     admin["CheckUpdate"].OnEvent("Click", CheckUpdate_Click)
